@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="false" debug="false">
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <withJansi>true</withJansi>
+        <encoder>
+            <pattern>%date{HH:mm:ss} %-5level %logger{0} {%class %method} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- This is a Stdout Encoder For When we have Stdout Logging
+    <appender name="stdoutLogstash" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <customFields>
+                {
+                "app_name": "member-to-member-transfers",
+                "env" : {
+                "mesos_task_id": "${MESOS_TASK_ID}",
+                "marathon_app_id": "${MARATHON_APP_ID}",
+                "marathon_app_version": "${MARATHON_APP_VERSION}"
+                }
+                }
+            </customFields>
+        </encoder>
+    </appender>-->
+
+    <root level="TRACE">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+</configuration>

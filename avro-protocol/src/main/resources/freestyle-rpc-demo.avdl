@@ -1,0 +1,30 @@
+@namespace("com.example")
+protocol ExampleService {
+
+  record Request {
+    string value;
+  }
+
+  record UnknownFailure {
+    string value;
+  }
+
+  record InvalidInput {
+    string value;
+  }
+
+  record Success {
+    string value;
+  }
+
+  record Response {
+    union {
+      UnknownFailure,
+      InvalidInput,
+      Success
+    } value;
+  }
+
+  Response send(Request request);
+
+}
