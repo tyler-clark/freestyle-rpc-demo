@@ -34,7 +34,14 @@ lazy val commonSettings = Seq(
   scalacOptions in (Compile, console) ~= (_ filterNot (_ contains "paradise"))
 )
 
-lazy val protocolSettings: Seq[Def.Setting[_]] = Seq(
+lazy val commonProtocolSettings: Seq[Def.Setting[_]] = Seq(
+  libraryDependencies ++= Seq(
+    "io.frees"    %% "frees-rpc-client-core" % freestyleRPCVersion,
+    "com.chuusai" %% "shapeless"             % shapelessVersion
+  )
+)
+
+lazy val avroSrcGenSettings: Seq[Def.Setting[_]] = Seq(
   publishMavenStyle := true,
   //mappings in (Compile, packageBin) ~= { _.filter(!_._1.getName.endsWith(".class")) },
   idlType := "avro",
@@ -42,24 +49,28 @@ lazy val protocolSettings: Seq[Def.Setting[_]] = Seq(
   srcGenSourceDir := (Compile / resourceDirectory).value,
   srcGenTargetDir := (Compile / sourceManaged).value / "compiled_avro",
   sourceGenerators in Compile += (srcGen in Compile).taskValue,
-  libraryDependencies ++= Seq(
-    "io.frees"    %% "frees-rpc-client-core" % freestyleRPCVersion,
-    "com.chuusai" %% "shapeless"             % shapelessVersion
-  )
 )
 
 lazy val `avro-protocol` =
   project
     .in(file("avro-protocol"))
     .settings(commonSettings)
-    .settings(protocolSettings)
+    .settings(commonProtocolSettings)
+    .settings(avroSrcGenSettings)
 
-lazy val `avro-server` =
+lazy val `protobuf-protocol` =
   project
-    .in(file("avro-server"))
-    .settings(name := "avro-server")
+    .in(file("protobuf-protocol"))
+    .settings(commonSettings)
+    .settings(commonProtocolSettings)
+
+lazy val `server` =
+  project
+    .in(file("server"))
+    .settings(name := "server")
     .settings(commonSettings)
     .dependsOn(`avro-protocol`)
+    .dependsOn(`protobuf-protocol`)
     .settings(
       libraryDependencies ++= Seq(
         "io.frees"  %% "frees-rpc-server" % freestyleRPCVersion,
@@ -71,6 +82,6 @@ lazy val root = project
   .in(file("."))
   .settings(name := "freestyle-rpc-demo")
   .settings(commonSettings)
-  .aggregate(`avro-protocol`, `avro-server`)
+  .aggregate(`avro-protocol`, `protobuf-protocol`, `server`)
 
 

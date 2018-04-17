@@ -1,5 +1,5 @@
-@namespace("com.example")
-protocol ExampleService {
+@namespace("com.demo.protocol.avro")
+protocol ExampleAvroService {
 
   record Request {
     string value;

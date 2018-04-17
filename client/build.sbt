@@ -25,6 +25,7 @@ lazy val `avro-client` = project
       "io.frees"      %% "frees-rpc-client-core"  % freesRpc,
       "io.frees"      %% "frees-rpc-client-netty" % freesRpc,
       "com.example"   %% "avro-protocol"          % protocolVersion,
+      "com.example"   %% "protobuf-protocol"      % protocolVersion,
       "org.scalameta" %% "scalameta"              % scalameta
     ),
     srcGenSettings,

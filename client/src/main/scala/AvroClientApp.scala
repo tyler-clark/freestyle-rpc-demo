@@ -1,14 +1,19 @@
-package com.example
+package com.demo.client
 
 import cats.effect.IO
-import java.util.UUID
-import scala.concurrent.duration._
+import com.demo.protocol.avro._
+import freestyle.rpc.ChannelForAddress
 import shapeless._
 import shapeless.syntax.inject._
 
-
 object AvroClientApp {
-  import clients._
+
+  implicit val S = monix.execution.Scheduler.Implicits.global
+
+  val channelFor = ChannelForAddress("localhost", 8080)
+
+  val exampleServiceClient: ExampleAvroService.Client[IO] =
+    ExampleAvroService.client[IO](channelFor)
 
   def main(args: Array[String]): Unit = {
 

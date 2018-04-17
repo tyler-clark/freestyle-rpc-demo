@@ -1,4 +1,4 @@
-package com.example
+package com.demo.server
 
 import cats.effect.{Effect, IO}
 import cats.implicits._
@@ -14,7 +14,7 @@ object Main extends StreamApp[IO] {
     streamRPCServer[IO]
   }
 
-  import com.example.implicits._
+  import com.demo.server.implicits._
   import freestyle.rpc.server.implicits._
   def streamRPCServer[F[_]: Effect]: Stream[F, ExitCode] =
     Stream.bracket(GrpcServer[F].start())(
