@@ -39,26 +39,39 @@ lazy val commonProtocolSettings: Seq[Def.Setting[_]] = Seq(
   )
 )
 
-lazy val avroSrcGenSettings: Seq[Def.Setting[_]] = Seq(
-  publishMavenStyle := true,
-  //mappings in (Compile, packageBin) ~= { _.filter(!_._1.getName.endsWith(".class")) },
+lazy val commonRPCSettings: Seq[Def.Setting[_]] = Seq(
+  resolvers += Resolver.bintrayRepo("beyondthelines", "maven"),
   idlType := "avro",
   srcGenSerializationType := "AvroWithSchema",
-  srcGenSourceDir := (Compile / resourceDirectory).value,
   srcGenTargetDir := (Compile / sourceManaged).value / "compiled_avro",
-  sourceGenerators in Compile += (srcGen in Compile).taskValue,
+  sourceGenerators in Compile += (Compile / srcGen).taskValue,
+  libraryDependencies ++= Seq(
+    "io.frees" %% "frees-rpc-client-core" % freestyleRPCVersion
+  )
+)
+
+lazy val rpcProtocolSettings: Seq[Def.Setting[_]] = commonRPCSettings ++ Seq(
+  publishMavenStyle := true,
+  crossPaths := false,
+  mappings in (Compile, packageBin) ~= { _.filter(!_._1.getName.endsWith(".class")) },
+)
+
+lazy val rpcServiceSettings: Seq[Def.Setting[_]] = commonRPCSettings ++ Seq(
+  srcJarNames := Seq("avro-protocol")
 )
 
 lazy val `avro-protocol` =
   project
     .in(file("avro-protocol"))
+    .settings(name := "avro-protocol")
     .settings(commonSettings)
     .settings(commonProtocolSettings)
-    .settings(avroSrcGenSettings)
+    .settings(rpcProtocolSettings)
 
 lazy val `protobuf-protocol` =
   project
     .in(file("protobuf-protocol"))
+    .settings(name := "protobuf-protocol")
     .settings(commonSettings)
     .settings(commonProtocolSettings)
 
@@ -67,6 +80,7 @@ lazy val `server` =
     .in(file("server"))
     .settings(name := "server")
     .settings(commonSettings)
+    .settings(rpcServiceSettings)
     .dependsOn(`avro-protocol`)
     .dependsOn(`protobuf-protocol`)
     .settings(

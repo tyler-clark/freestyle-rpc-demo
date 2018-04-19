@@ -8,7 +8,7 @@ lazy val srcGenSettings = Seq(
   srcJarNames := Seq("avro-protocol"),
   srcGenSourceDir := (Compile / sourceManaged).value / "avro",
   srcGenTargetDir := (Compile / sourceManaged).value / "compiled_avro",
-  sourceGenerators in Compile += (srcGenFromJars in Compile).taskValue,
+  sourceGenerators in Compile += (Compile / srcGen).taskValue
 )
 
 lazy val `avro-client` = project
