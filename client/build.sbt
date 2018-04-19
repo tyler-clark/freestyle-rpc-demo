@@ -1,6 +1,5 @@
 
-lazy val freesRpc            = "0.13.4-SNAPSHOT"
-lazy val scalameta           = "1.8.0"
+lazy val freesRpc            = "0.13.3"
 lazy val protocolVersion     = "1-SNAPSHOT"
 
 lazy val srcGenSettings = Seq(
@@ -26,7 +25,7 @@ lazy val `avro-client` = project
       "io.frees"      %% "frees-rpc-client-netty" % freesRpc,
       "com.example"   %% "avro-protocol"          % protocolVersion,
       "com.example"   %% "protobuf-protocol"      % protocolVersion,
-      "org.scalameta" %% "scalameta"              % scalameta
+      "org.scalameta" %% "scalameta"              % "1.8.0"
     ),
     srcGenSettings,
     addCompilerPlugin("org.scalameta" % "paradise" % "3.0.0-M10" cross CrossVersion.full),

@@ -1,7 +1,6 @@
 
-
 val freestyle           = "0.8.0"
-val freestyleRPCVersion = "0.13.4-SNAPSHOT"
+val freestyleRPCVersion = "0.13.3"
 val log4sVersion        = "1.4.0"
 val shapelessVersion    = "2.3.2"
 
@@ -11,20 +10,19 @@ lazy val commonSettings = Seq(
   scalaVersion := "2.12.4",
   scalacOptions ++= Seq(
     "-deprecation",
-    "-encoding", "UTF-8",       // yes, this is 2 args
+    "-encoding", "UTF-8",
     "-feature",
     "-language:existentials",
     "-language:higherKinds",
     "-language:implicitConversions",
     "-unchecked",
-    //"-Xfatal-warnings",
     "-Xlint",
     "-Yno-adapted-args",
-    "-Ywarn-dead-code",        // N.B. doesn't work well with the ??? hole
+    "-Ywarn-dead-code",
     "-Ywarn-numeric-widen",
     "-Ywarn-value-discard",
     "-Xfuture",
-    "-Ywarn-unused-import",     // 2.11 only
+    "-Ywarn-unused-import",
     "-Ypartial-unification"
   ),
   publishArtifact in (Compile, packageDoc) := false,
@@ -78,10 +76,11 @@ lazy val `server` =
         "org.slf4j"  % "slf4j-simple"     % "1.7.25"
       ))
 
-lazy val root = project
-  .in(file("."))
-  .settings(name := "freestyle-rpc-demo")
-  .settings(commonSettings)
-  .aggregate(`avro-protocol`, `protobuf-protocol`, `server`)
+lazy val root =
+  project
+    .in(file("."))
+    .settings(name := "freestyle-rpc-demo")
+    .settings(commonSettings)
+    .aggregate(`avro-protocol`, `protobuf-protocol`, `server`)
 
 
