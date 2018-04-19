@@ -2,8 +2,6 @@ package com.demo.protocol
 
 import freestyle.rpc.protocol._
 
-import shapeless.{:+:, CNil, Coproduct}
-
 package protobuf {
 
   @message case class Request(value: String)
