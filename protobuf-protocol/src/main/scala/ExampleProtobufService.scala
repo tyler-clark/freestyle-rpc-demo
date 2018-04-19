@@ -8,15 +8,7 @@ package protobuf {
 
   @message case class Request(value: String)
 
-  //sealed trait ResponseType
-
-  // @message case class UnknownFailure(value: String) extends ResponseType
-
-  // @message case class InvalidInput(value: String) extends ResponseType
-
-  @message case class Success(value: String, faillure: String) //extends ResponseType
-
-  @message case class Response(value: Success)
+  @message case class Response(value: String)
 
   @service trait ExampleProtobufService[F[_]] {
 

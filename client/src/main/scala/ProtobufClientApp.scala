@@ -17,19 +17,11 @@ object ProtobufClientApp {
 
   def main(args: Array[String]): Unit = {
 
-    // object ResponsePoly extends Poly1 {
-    //   implicit val a = at[UnknownFailure](u => "Something unknown happened!")
-    //   implicit val b = at[InvalidInput](u => "The input you provided is invalid!")
-    //   implicit val c = at[Success](s => s.value)
-    // }
-
     val program = exampleProtobufServiceClient.send(Request(args(0)))
 
     val res = program.unsafeRunSync
-    println(s"\n$res\n")
-    //val result = res.value.fold(ResponsePoly)
 
-    //println(s"\n$result\n")
+    println(s"\n$res\n")
 
   }
 
